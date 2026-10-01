@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "==> Preparing storage and cache directories..."
+echo "==> Preparing storage, database, and cache directories..."
 mkdir -p /var/www/storage/framework/sessions \
          /var/www/storage/framework/views \
          /var/www/storage/framework/cache \
@@ -40,13 +40,13 @@ export DB_PASSWORD="${DB_PASSWORD:-password123}"
 echo "==> Testing database connection to ${DB_HOST}:${DB_PORT} (DB: ${DB_DATABASE}, User: ${DB_USERNAME})..."
 
 CONNECTED=0
-for i in {1..12}; do
-    if php -r "try { new PDO('mysql:host=' . getenv('DB_HOST') . ';port=' . getenv('DB_PORT') . ';dbname=' . getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'), [PDO::ATTR_TIMEOUT => 3]); exit(0); } catch (Exception \$e) { echo 'Attempt ' . \$i . ': ' . \$e->getMessage() . PHP_EOL; exit(1); }"; then
+for i in {1..6}; do
+    if php -r "try { new PDO('mysql:host=' . getenv('DB_HOST') . ';port=' . getenv('DB_PORT') . ';dbname=' . getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'), [PDO::ATTR_TIMEOUT => 2]); exit(0); } catch (Exception \$e) { echo 'Attempt ' . \$i . ': ' . \$e->getMessage() . PHP_EOL; exit(1); }"; then
         CONNECTED=1
         echo "==> Successfully connected to MySQL database!"
         break
     fi
-    echo "Waiting for MySQL database (attempt $i/12)..."
+    echo "Waiting for MySQL database (attempt $i/6)..."
     sleep 2
 done
 
@@ -58,11 +58,39 @@ if [ $CONNECTED -eq 0 ]; then
     export DB_DATABASE=/var/www/database/database.sqlite
 fi
 
+# Create a clean, production-ready .env file so Laravel never fails on missing APP_KEY or missing config
+echo "==> Generating production .env..."
+cat <<EOF > /var/www/.env
+APP_NAME=NexoraHMS
+APP_ENV=production
+APP_KEY=${APP_KEY:-base64:+umExKrLFkxRZYsV/CFR5yKenqHBGHtmnzqsKuSRhD8=}
+APP_DEBUG=true
+APP_URL=${APP_URL:-http://localhost:8000}
+
+DB_CONNECTION=${DB_CONNECTION}
+DB_HOST=${DB_HOST}
+DB_PORT=${DB_PORT}
+DB_DATABASE=${DB_DATABASE}
+DB_USERNAME=${DB_USERNAME}
+DB_PASSWORD=${DB_PASSWORD}
+
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+QUEUE_CONNECTION=sync
+CACHE_STORE=file
+
+CORS_ALLOWED_ORIGINS=*
+SANCTUM_STATEFUL_DOMAINS=*
+EOF
+
+php artisan config:clear || true
+
 echo "==> Running migrations..."
 php artisan migrate --force
 
 echo "==> Seeding roles, admin, and clinical demo data..."
 php artisan db:seed --force
 
-echo "==> Starting Nexora HMS backend on 0.0.0.0:${PORT:-8000}..."
-exec php artisan serve --host=0.0.0.0 --port="${PORT:-8000}"
+TARGET_PORT="${PORT:-8000}"
+echo "==> Starting Nexora HMS backend on 0.0.0.0:${TARGET_PORT}..."
+exec php artisan serve --host=0.0.0.0 --port="${TARGET_PORT}"
