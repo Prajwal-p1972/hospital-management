@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { ProductMode, UserRole } from '../../types';
 import { 
   Building2, Stethoscope, Calendar, QrCode, UserPlus, 
-  Search, Shield, Activity, ChevronDown, Check, Sparkles, LogOut
+  Search, Shield, Activity, ChevronDown, Check, Sparkles, LogOut, Sun, Moon
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -18,6 +18,19 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
     selectedDate, setSelectedDate, showToast, setActivePatient360Id, patients
   } = useApp();
   const { user: authUser, logout } = useAuth();
+  const [isLightMode, setIsLightMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsLightMode(prev => {
+      const next = !prev;
+      if (next) {
+        document.body.classList.add('theme-light');
+      } else {
+        document.body.classList.remove('theme-light');
+      }
+      return next;
+    });
+  };
 
   const handleLogout = async () => {
     try {
@@ -61,29 +74,34 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
     }}>
       {/* Brand & Mode Selector */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '10px',
-            background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 0 15px rgba(2, 132, 199, 0.4)',
-            border: '1px solid rgba(56, 189, 248, 0.3)'
+            padding: '5px 12px',
+            borderRadius: '12px',
+            background: isLightMode ? '#F5F7FA' : '#131E3A',
+            border: '1px solid var(--border-medium)',
+            boxShadow: '0 2px 10px rgba(0, 122, 204, 0.25)',
           }}>
-            <Activity size={20} color="#ffffff" />
+            <img src="/logo-nexora.png" alt="NEXORA" style={{ height: '24px', objectFit: 'contain' }} />
           </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '1.05rem', fontWeight: 800, letterSpacing: '-0.02em', color: '#f8fafc' }}>
-                NEXORA <span style={{ color: 'var(--primary)', fontWeight: 600 }}>CareOS</span>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{
+                fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.08em',
+                background: 'linear-gradient(135deg, #00AEEF 0%, #007ACC 100%)',
+                color: '#FFFFFF', padding: '1px 6px', borderRadius: '4px',
+              }}>
+                HMS
+              </span>
+              <span style={{ fontSize: '0.85rem', fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--text-main)' }}>
+                CareOS
               </span>
               <span className="live-pulse" title="System Live & Operational" />
             </div>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-              Proprietary Healthcare Platform
+            <span style={{ fontSize: '0.65rem', color: 'var(--text-dim)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+              Healthcare Platform
             </span>
           </div>
         </div>
@@ -351,6 +369,24 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
             </select>
           </div>
         </div>
+
+        {/* Light Mode / Dark Mode Toggle */}
+        <button
+          onClick={toggleTheme}
+          title={isLightMode ? 'Switch to Dark Mode (Premium Version)' : 'Switch to Light Mode'}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: '32px', height: '32px',
+            borderRadius: '8px',
+            background: isLightMode ? '#F5F7FA' : '#131E3A',
+            border: '1px solid var(--border-medium)',
+            color: isLightMode ? '#007ACC' : '#00AEEF',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+          }}
+        >
+          {isLightMode ? <Moon size={16} /> : <Sun size={16} />}
+        </button>
 
         {/* Logout Button */}
         <button

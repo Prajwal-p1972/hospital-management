@@ -1,31 +1,44 @@
 :root {
-  /* Color Palette - Deep Clinical Slate & Luminous Accents */
-  --bg-app: #080c14;
-  --bg-sidebar: #0d1322;
-  --bg-card: #121a2d;
-  --bg-card-hover: #17223b;
-  --bg-card-glass: rgba(18, 26, 45, 0.75);
-  --bg-input: #0b111e;
-  --bg-elevated: #1a253f;
-  --bg-subtle: rgba(255, 255, 255, 0.04);
+  /* Brand Master Palette */
+  --color-primary: #007ACC;
+  --color-deep-anchor: #0B3C5D;
+  --color-accent: #00AEEF;
+  --color-neutral: #E6E8EB;
+  --color-dark-bg: #0F172A;
+
+  /* Default / Dark Mode (Premium Version) */
+  --bg-app: #0F172A;
+  --bg-sidebar: #09101f;
+  --bg-card: #131E3A;
+  --bg-card-hover: #19274c;
+  --bg-card-glass: rgba(19, 30, 58, 0.85);
+  --bg-input: #0a1122;
+  --bg-elevated: #1E3A8A;
+  --bg-subtle: rgba(0, 174, 239, 0.06);
   
-  /* Borders */
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-medium: rgba(255, 255, 255, 0.14);
-  --border-bright: rgba(56, 189, 248, 0.3);
-  --border-focus: #38bdf8;
+  /* Borders & Accent Lines */
+  --border-subtle: rgba(0, 174, 239, 0.15);
+  --border-medium: rgba(0, 174, 239, 0.28);
+  --border-bright: #00AEEF;
+  --border-focus: #00AEEF;
+  --accent-line: #00AEEF;
 
-  /* Typography Colors */
-  --text-main: #f1f5f9;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
-  --text-inverse: #0f172a;
+  /* Typography */
+  --text-main: #FFFFFF;
+  --text-muted: #94A3B8;
+  --text-dim: #64748B;
+  --text-headings: #FFFFFF;
+  --text-inverse: #0F172A;
 
-  /* Primary Accent - Cyan / Azure */
-  --primary: #0ea5e9;
-  --primary-hover: #0284c7;
-  --primary-glow: rgba(14, 165, 233, 0.25);
-  --primary-subtle: rgba(14, 165, 233, 0.12);
+  /* Primary Button / Accents */
+  --primary: #007ACC;
+  --primary-hover: #00AEEF;
+  --primary-glow: rgba(0, 122, 204, 0.35);
+  --primary-subtle: rgba(0, 122, 204, 0.14);
+
+  /* Dark Button */
+  --btn-dark: #1E3A8A;
+  --btn-dark-hover: #007ACC;
 
   /* Status Colors */
   --success: #10b981;
@@ -40,19 +53,19 @@
   --danger-glow: rgba(239, 68, 68, 0.25);
   --danger-subtle: rgba(239, 68, 68, 0.12);
 
-  --info: #3b82f6;
-  --info-glow: rgba(59, 130, 246, 0.2);
-  --info-subtle: rgba(59, 130, 246, 0.12);
+  --info: #00AEEF;
+  --info-glow: rgba(0, 174, 239, 0.2);
+  --info-subtle: rgba(0, 174, 239, 0.12);
 
   --purple: #a855f7;
   --purple-glow: rgba(168, 85, 247, 0.2);
   --purple-subtle: rgba(168, 85, 247, 0.12);
 
   /* Dental Specific Colors */
-  --dental-cyan: #06b6d4;
+  --dental-cyan: #00AEEF;
   --dental-amber: #d97706;
-  --dental-surface: #1e293b;
-  --dental-active: #38bdf8;
+  --dental-surface: #1E3A8A;
+  --dental-active: #007ACC;
 
   /* Elevation Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
@@ -73,26 +86,35 @@
   --transition-normal: 220ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Light Mode Overrides (Optional user toggle) */
+/* Light Mode Overrides */
 body.theme-light {
-  --bg-app: #f8fafc;
-  --bg-sidebar: #ffffff;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f1f5f9;
-  --bg-card-glass: rgba(255, 255, 255, 0.9);
-  --bg-input: #f1f5f9;
-  --bg-elevated: #e2e8f0;
-  --bg-subtle: rgba(0, 0, 0, 0.03);
-  
-  --border-subtle: rgba(0, 0, 0, 0.08);
-  --border-medium: rgba(0, 0, 0, 0.14);
-  --border-bright: rgba(14, 165, 233, 0.4);
+  --bg-app: #FFFFFF;
+  --bg-sidebar: #F5F7FA;
+  --bg-card: #F5F7FA;
+  --bg-card-hover: #E6E8EB;
+  --bg-card-glass: rgba(245, 247, 250, 0.95);
+  --bg-input: #FFFFFF;
+  --bg-elevated: #E6E8EB;
+  --bg-subtle: rgba(11, 60, 93, 0.05);
 
-  --text-main: #0f172a;
+  --border-subtle: #E6E8EB;
+  --border-medium: rgba(11, 60, 93, 0.15);
+  --border-bright: #00AEEF;
+  --border-focus: #007ACC;
+  --accent-line: #00AEEF;
+
+  --text-main: #0B3C5D;
+  --text-headings: #0B3C5D;
   --text-muted: #475569;
-  --text-dim: #94a3b8;
-  --text-inverse: #ffffff;
+  --text-dim: #64748B;
+  --text-inverse: #FFFFFF;
 
-  --shadow-md: 0 4px 12px -1px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.12);
+  --primary: #007ACC;
+  --primary-hover: #00AEEF;
+  --primary-glow: rgba(0, 122, 204, 0.25);
+  --primary-subtle: rgba(0, 122, 204, 0.1);
+
+  --shadow-sm: 0 1px 3px 0 rgba(11, 60, 93, 0.08);
+  --shadow-md: 0 4px 12px -1px rgba(11, 60, 93, 0.1);
+  --shadow-lg: 0 10px 25px -3px rgba(11, 60, 93, 0.15);
 }

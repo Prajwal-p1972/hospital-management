@@ -74,22 +74,36 @@ export default function LoginPage() {
         boxShadow: '0 25px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
       }}>
         {/* Logo & Brand */}
-        <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <div style={{
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            width: '72px', height: '72px', borderRadius: '20px',
-            background: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
-            boxShadow: '0 8px 24px rgba(59,130,246,0.35)',
-            marginBottom: '20px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '14px 28px',
+            borderRadius: '20px',
+            background: 'rgba(11, 60, 93, 0.35)',
+            border: '1px solid rgba(0, 174, 239, 0.4)',
+            boxShadow: '0 8px 30px rgba(0, 122, 204, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+            marginBottom: '18px',
           }}>
-            <Activity size={36} color="white" />
+            <img 
+              src="/logo-nexora.png" 
+              alt="NEXORA" 
+              style={{ height: '42px', objectFit: 'contain' }} 
+            />
           </div>
-          <h1 style={{
-            color: 'white', fontSize: '28px', fontWeight: '700',
-            letterSpacing: '-0.5px', margin: '0 0 8px 0',
-          }}>Nexora HMS</h1>
-          <p style={{ color: '#64748b', fontSize: '14px', margin: 0 }}>
-            Hospital Management System
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '6px' }}>
+            <span style={{
+              color: '#FFFFFF', fontSize: '20px', fontWeight: '800', letterSpacing: '-0.3px'
+            }}>CAREOS</span>
+            <span style={{
+              background: '#1E3A8A', color: '#00AEEF', padding: '2px 8px', borderRadius: '6px',
+              fontSize: '11px', fontWeight: '700', border: '1px solid rgba(0, 174, 239, 0.4)',
+              letterSpacing: '0.08em'
+            }}>HMS</span>
+          </div>
+          <p style={{ color: '#94a3b8', fontSize: '13px', margin: 0 }}>
+            Enterprise Hospital Management System
           </p>
         </div>
 
@@ -97,12 +111,12 @@ export default function LoginPage() {
         <div style={{
           display: 'flex', alignItems: 'center', gap: '8px',
           marginBottom: '28px', padding: '10px 14px',
-          background: 'rgba(59,130,246,0.08)',
-          border: '1px solid rgba(59,130,246,0.2)',
+          background: 'rgba(0, 122, 204, 0.1)',
+          border: '1px solid rgba(0, 174, 239, 0.3)',
           borderRadius: '10px',
         }}>
-          <Shield size={16} color="#3b82f6" />
-          <span style={{ color: '#94a3b8', fontSize: '13px' }}>Secure Staff Sign In</span>
+          <Shield size={16} color="#00AEEF" />
+          <span style={{ color: '#E6E8EB', fontSize: '13px' }}>Secure Staff Sign In</span>
         </div>
 
         {/* Error message */}
@@ -135,7 +149,7 @@ export default function LoginPage() {
                 padding: '12px 16px', borderRadius: '12px',
                 background: 'rgba(255,255,255,0.05)',
                 border: '1px solid',
-                borderColor: isEmailFocused ? '#3b82f6' : 'rgba(255,255,255,0.1)',
+                borderColor: isEmailFocused ? '#00AEEF' : 'rgba(0, 174, 239, 0.2)',
                 color: 'white', fontSize: '15px',
                 outline: 'none', transition: 'border-color 0.2s',
               }}
@@ -163,7 +177,7 @@ export default function LoginPage() {
                   padding: '12px 48px 12px 16px', borderRadius: '12px',
                   background: 'rgba(255,255,255,0.05)',
                   border: '1px solid',
-                  borderColor: isPasswordFocused ? '#3b82f6' : 'rgba(255,255,255,0.1)',
+                  borderColor: isPasswordFocused ? '#00AEEF' : 'rgba(0, 174, 239, 0.2)',
                   color: 'white', fontSize: '15px',
                   outline: 'none', transition: 'border-color 0.2s',
                 }}
@@ -192,13 +206,14 @@ export default function LoginPage() {
             style={{
               width: '100%', padding: '14px',
               background: isLoading
-                ? 'rgba(59,130,246,0.4)'
-                : 'linear-gradient(135deg, #3b82f6, #2563eb)',
-              border: 'none', borderRadius: '12px',
+                ? 'rgba(0, 122, 204, 0.4)'
+                : 'linear-gradient(135deg, #007ACC 0%, #1E3A8A 100%)',
+              border: '1px solid rgba(0, 174, 239, 0.4)',
+              borderRadius: '12px',
               color: 'white', fontSize: '15px', fontWeight: '600',
               cursor: isLoading ? 'not-allowed' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
-              boxShadow: isLoading ? 'none' : '0 4px 20px rgba(59,130,246,0.4)',
+              boxShadow: isLoading ? 'none' : '0 4px 20px rgba(0, 122, 204, 0.4)',
               transition: 'all 0.2s',
             }}
           >
