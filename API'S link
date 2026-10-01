@@ -1,0 +1,213 @@
+Base URL
+
+Agar Laravel server:
+
+http://127.0.0.1:8000
+
+par chal raha hai, to Postman mein base URL:
+
+http://127.0.0.1:8000/api
+
+Use hoga.
+
+Protected APIs ke liye:
+
+Authorization: Bearer YOUR_LOGIN_TOKEN
+
+
+"token": "1|xsiW6Jc6n1tkAOvVulcDkPjOQ9wZAqp1FYuVp9GJe72f8606"
+
+Sonam Admin:-	token 2:"3|4LX6RI0c7vSd6MSf3WpYCb0LZzKMfyh80O0VgRPt74bb134e"
+
+"token":"2|pmk2TQLP4CY3eTP5sWgQZX7trnDMrSFHeTife4IJd1fcf80f"
+
+
+Doctor:-token  "token": "4|1gDkUSCpBMK0lqpffcGzny1rLe44LNBalY3mAiSp9c633b56"
+		    "token": "5|Vns4DeQIHbIPk1r2Be2AlskcBaqqI6AnN9rpdPt561940d5b"
+
+
+
+Accept: application/json
+Content-Type: application/json
+1. Authentication APIs
+#	Method	API
+1	POST	/register
+2	POST	/login
+3	POST	/logout
+4	GET	/me
+5	GET	/user
+
+register aur login public hain; logout/me/user authentication require karte hain.
+
+2. Admin APIs
+Admin test
+#	Method	API
+6	GET	/admin-test
+Admin User Management
+#	Method	API
+7	GET	/admin/users
+8	POST	/admin/users
+9	PUT	/admin/users/{id}
+10	DELETE	/admin/users/{id}
+
+Ye APIs auth:sanctum + admin protected hain.
+
+3. Doctor Access Test
+#	Method	API
+11	GET	/doctor-test
+
+Doctor role required hai.
+
+4. Patient Management APIs
+#	Method	API
+12	POST	/patients
+13	GET	/patients/search
+14	GET	/patients/qr/{qr_token}
+15	GET	/patients
+16	GET	/patients/{id}
+17	PUT	/patients/{id}
+18	DELETE	/patients/{id}
+
+All authenticated users ke liye current route file mein ye APIs available hain.
+
+Patient 360
+#	Method	API
+19	GET	/v1/patients/{id}/360
+
+5. Patient Encounter / History APIs
+#	Method	API
+20	POST	/patients/{patientId}/encounters
+21	GET	/patients/{patientId}/encounters
+22	GET	/patients/{patientId}/encounters/{encounterId}
+23	PUT	/patients/{patientId}/encounters/{encounterId}
+24	DELETE	/patients/{patientId}/encounters/{encounterId}
+
+6. Doctor Master APIs
+
+Admin only:
+
+#	Method	API
+25	POST	/v1/doctors
+26	GET	/v1/doctors
+27	GET	/v1/doctors/{id}
+28	PUT	/v1/doctors/{id}
+29	DELETE	/v1/doctors/{id}
+
+7. Doctor Schedule APIs
+#	Method	API
+30	POST	/v1/doctors/{doctorId}/schedules
+31	GET	/v1/doctors/{doctorId}/schedules
+32	GET	/v1/doctor-schedules/{id}
+33	PUT	/v1/doctor-schedules/{id}
+34	DELETE	/v1/doctor-schedules/{id}
+
+Admin only.
+
+8. Doctor Queue APIs
+Today's queue
+#	Method	API
+35	GET	/v1/doctors/{doctorId}/today-queue
+
+Admin + Doctor.
+
+Queue CRUD
+#	Method	API
+36	POST	/v1/doctor-queues
+37	GET	/v1/doctor-queues
+38	GET	/v1/doctor-queues/{id}
+39	PUT	/v1/doctor-queues/{id}
+40	DELETE	/v1/doctor-queues/{id}
+
+Current route file mein ye Admin-only hain.
+
+9. Consultation APIs
+#	Method	API
+41	POST	/v1/consultations
+42	GET	/v1/consultations
+43	GET	/v1/consultations/{id}
+44	PUT	/v1/consultations/{id}
+45	DELETE	/v1/consultations/{id}
+
+Admin + Doctor.
+
+10. Investigation APIs
+#	Method	API
+46	POST	/v1/investigations
+47	GET	/v1/investigations
+48	GET	/v1/investigations/{id}
+49	PUT	/v1/investigations/{id}
+50	DELETE	/v1/investigations/{id}
+
+11. Medication APIs
+#	Method	API
+51	POST	/v1/medications
+52	GET	/v1/medications
+53	GET	/v1/medications/{id}
+54	PUT	/v1/medications/{id}
+55	DELETE	/v1/medications/{id}
+
+12. Advice APIs
+#	Method	API
+56	POST	/v1/advice
+57	GET	/v1/advice
+58	GET	/v1/advice/{id}
+59	PUT	/v1/advice/{id}
+60	DELETE	/v1/advice/{id}
+
+13. Procedure APIs
+#	Method	API
+61	POST	/v1/procedures
+62	GET	/v1/procedures
+63	GET	/v1/procedures/{id}
+64	PUT	/v1/procedures/{id}
+65	DELETE	/v1/procedures/{id}
+
+14. Follow-Up APIs
+#	Method	API
+66	POST	/v1/follow-ups
+67	GET	/v1/follow-ups
+68	GET	/v1/follow-ups/{id}
+69	PUT	/v1/follow-ups/{id}
+70	DELETE	/v1/follow-ups/{id}
+
+15. Prescription APIs
+#	Method	API
+71	GET	/prescriptions
+72	POST	/prescriptions
+73	GET	/prescriptions/{id}
+74	PUT	/prescriptions/{id}
+75	DELETE	/prescriptions/{id}
+
+16. Appointment APIs
+#	Method	API
+76	GET	/appointments
+77	POST	/appointments
+78	GET	/appointments/{id}
+79	PUT	/appointments/{id}
+80	DELETE	/appointments/{id}
+
+17. Documents APIs
+
+Aapne Route::apiResource() use kiya hai, isliye 5 APIs automatically banti hain:
+
+#	Method	API
+81	GET	/v1/documents
+82	POST	/v1/documents
+83	GET	/v1/documents/{document}
+84	PUT/PATCH	/v1/documents/{document}
+85	DELETE	/v1/documents/{document}
+
+18. Electronic Signatures APIs
+
+Again apiResource, so 5 APIs:
+
+#	Method	API
+86	GET	/v1/electronic-signatures
+87	POST	/v1/electronic-signatures
+88	GET	/v1/electronic-signatures/{electronic_signature}
+89	PUT/PATCH	/v1/electronic-signatures/{electronic_signature}
+90	DELETE	/v1/electronic-signatures/{electronic_signature}
+
+19. Doctor Dashboard
+#	Method	API
+91	GET	/v1/doctor-dashboard

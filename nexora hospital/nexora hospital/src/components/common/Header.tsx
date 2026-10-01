@@ -1,0 +1,382 @@
+import React, { useState } from 'react';
+import { useApp } from '../../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
+import { ProductMode, UserRole } from '../../types';
+import { 
+  Building2, Stethoscope, Calendar, QrCode, UserPlus, 
+  Search, Shield, Activity, ChevronDown, Check, Sparkles, LogOut
+} from 'lucide-react';
+
+interface HeaderProps {
+  onOpenRegister: () => void;
+  onOpenQRScanner: () => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner }) => {
+  const { 
+    mode, setMode, currentUser, setCurrentUser, users, 
+    selectedDate, setSelectedDate, showToast, setActivePatient360Id, patients
+  } = useApp();
+  const { user: authUser, logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch {
+      // ignore errors on logout
+    }
+  };
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSearchResults, setShowSearchResults] = useState(false);
+
+  const modeLabels: Record<ProductMode, { label: string; icon: string; badge: string }> = {
+    CLINIC: { label: 'CareOS Clinic', icon: '🩺', badge: 'Outpatient Practice' },
+    HOSPITAL: { label: 'CareOS Hospital', icon: '🏥', badge: 'Full HMS Enterprise' },
+    SUPER_SPECIALTY: { label: 'CareOS Super-Specialty', icon: '🏛️', badge: 'Tertiary & Multi-ICU' },
+    DENTAL: { label: 'CareOS Dental', icon: '🦷', badge: 'Dental Specialty Suite' }
+  };
+
+  const filteredPatients = searchQuery.trim() 
+    ? patients.filter(p => 
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.mrn.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.phone.includes(searchQuery)
+      )
+    : [];
+
+  return (
+    <header style={{
+      background: 'rgba(13, 19, 34, 0.92)',
+      backdropFilter: 'blur(16px)',
+      borderBottom: '1px solid var(--border-subtle)',
+      position: 'sticky',
+      top: 0,
+      zIndex: 100,
+      padding: '12px 24px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: '16px'
+    }}>
+      {/* Brand & Mode Selector */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{
+            width: '36px',
+            height: '36px',
+            borderRadius: '10px',
+            background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 0 15px rgba(2, 132, 199, 0.4)',
+            border: '1px solid rgba(56, 189, 248, 0.3)'
+          }}>
+            <Activity size={20} color="#ffffff" />
+          </div>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '1.05rem', fontWeight: 800, letterSpacing: '-0.02em', color: '#f8fafc' }}>
+                NEXORA <span style={{ color: 'var(--primary)', fontWeight: 600 }}>CareOS</span>
+              </span>
+              <span className="live-pulse" title="System Live & Operational" />
+            </div>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-dim)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+              Proprietary Healthcare Platform
+            </span>
+          </div>
+        </div>
+
+        {/* Mode Switcher Pill */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          background: 'var(--bg-input)',
+          border: '1px solid var(--border-subtle)',
+          borderRadius: 'var(--radius-md)',
+          padding: '3px',
+          gap: '2px'
+        }}>
+          {(['CLINIC', 'HOSPITAL', 'SUPER_SPECIALTY', 'DENTAL'] as ProductMode[]).map(m => {
+            const isActive = mode === m;
+            return (
+              <button
+                key={m}
+                onClick={() => setMode(m)}
+                style={{
+                  background: isActive ? 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)' : 'transparent',
+                  color: isActive ? '#ffffff' : 'var(--text-muted)',
+                  border: isActive ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid transparent',
+                  borderRadius: '6px',
+                  padding: '5px 10px',
+                  fontSize: '0.75rem',
+                  fontWeight: isActive ? 700 : 500,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <span>{modeLabels[m].icon}</span>
+                <span>{m === 'SUPER_SPECIALTY' ? 'Super-Specialty' : m.charAt(0) + m.slice(1).toLowerCase()}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Center Search & Global Patient Finder */}
+      <div style={{ position: 'relative', width: '320px' }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          background: 'var(--bg-input)',
+          border: '1px solid var(--border-medium)',
+          borderRadius: 'var(--radius-md)',
+          padding: '0 12px'
+        }}>
+          <Search size={15} color="var(--text-dim)" />
+          <input
+            type="text"
+            placeholder="Search patient, phone, or MRN..."
+            value={searchQuery}
+            onChange={e => {
+              setSearchQuery(e.target.value);
+              setShowSearchResults(true);
+            }}
+            onFocus={() => setShowSearchResults(true)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              outline: 'none',
+              color: 'var(--text-main)',
+              fontSize: '0.825rem',
+              padding: '8px 10px',
+              width: '100%'
+            }}
+          />
+        </div>
+
+        {/* Live Search Autocomplete Dropdown */}
+        {showSearchResults && searchQuery.trim() && (
+          <div style={{
+            position: 'absolute',
+            top: '42px',
+            left: 0,
+            right: 0,
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border-medium)',
+            borderRadius: 'var(--radius-md)',
+            boxShadow: 'var(--shadow-lg)',
+            zIndex: 999,
+            maxHeight: '260px',
+            overflowY: 'auto'
+          }}>
+            {filteredPatients.length === 0 ? (
+              <div style={{ padding: '12px', fontSize: '0.8rem', color: 'var(--text-dim)', textAlign: 'center' }}>
+                No patients found matching "{searchQuery}"
+              </div>
+            ) : (
+              filteredPatients.map(patient => (
+                <div
+                  key={patient.id}
+                  onClick={() => {
+                    setActivePatient360Id(patient.id);
+                    setShowSearchResults(false);
+                    setSearchQuery('');
+                  }}
+                  style={{
+                    padding: '10px 14px',
+                    borderBottom: '1px solid var(--border-subtle)',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    transition: 'background 0.15s ease'
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg-card-hover)')}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                >
+                  <div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                      {patient.name}
+                    </div>
+                    <div style={{ fontSize: '0.725rem', color: 'var(--text-dim)' }}>
+                      MRN: {patient.mrn} • Phone: {patient.phone}
+                    </div>
+                  </div>
+                  <span className="badge badge-primary text-xs">Patient 360</span>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Date-Selectable Controller & Role Switcher */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        {/* Date Selector Box */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'rgba(56, 189, 248, 0.08)',
+          border: '1px solid rgba(56, 189, 248, 0.25)',
+          borderRadius: 'var(--radius-md)',
+          padding: '6px 12px'
+        }}>
+          <Calendar size={15} color="#38bdf8" />
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ fontSize: '0.65rem', color: 'var(--text-dim)', textTransform: 'uppercase', fontWeight: 700 }}>
+              Operating Date
+            </span>
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={e => {
+                if (e.target.value) {
+                  setSelectedDate(e.target.value);
+                  showToast(`Operations view shifted to ${e.target.value}`, 'info');
+                }
+              }}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: '#38bdf8',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                outline: 'none',
+                cursor: 'pointer',
+                fontFamily: 'inherit'
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Quick Date Chips */}
+        <div style={{ display: 'flex', gap: '4px' }}>
+          <button
+            onClick={() => setSelectedDate('2026-09-03')}
+            style={{
+              background: selectedDate === '2026-09-03' ? 'rgba(56, 189, 248, 0.25)' : 'var(--bg-subtle)',
+              border: selectedDate === '2026-09-03' ? '1px solid #38bdf8' : '1px solid var(--border-subtle)',
+              color: selectedDate === '2026-09-03' ? '#38bdf8' : 'var(--text-muted)',
+              borderRadius: '6px',
+              padding: '4px 8px',
+              fontSize: '0.72rem',
+              fontWeight: 600,
+              cursor: 'pointer'
+            }}
+            title="Prompt Baseline Target Date"
+          >
+            03-09-2026
+          </button>
+        </div>
+
+        {/* QR Scanner Trigger */}
+        <button
+          onClick={onOpenQRScanner}
+          className="btn btn-secondary btn-sm"
+          title="Scan or enter Patient QR Token"
+        >
+          <QrCode size={15} />
+          <span>Scan QR</span>
+        </button>
+
+        {/* Register Patient Trigger */}
+        <button
+          onClick={onOpenRegister}
+          className="btn btn-primary btn-sm"
+          title="Register new patient with duplicate verification"
+        >
+          <UserPlus size={15} />
+          <span>+ Patient</span>
+        </button>
+
+        {/* User Role Switcher Dropdown */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border-medium)',
+          borderRadius: 'var(--radius-md)',
+          padding: '4px 8px'
+        }}>
+          <div style={{
+            width: '28px',
+            height: '28px',
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '0.75rem',
+            fontWeight: 700,
+            color: '#ffffff'
+          }}>
+            {currentUser.name.charAt(0)}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-main)', maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {currentUser.name.split(',')[0]}
+            </span>
+            <select
+              value={currentUser.id}
+              onChange={e => {
+                const found = users.find(u => u.id === e.target.value);
+                if (found) {
+                  setCurrentUser(found);
+                  showToast(`Role persona active: ${found.role.replace(/_/g, ' ')}`, 'info');
+                }
+              }}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--primary)',
+                fontSize: '0.675rem',
+                fontWeight: 600,
+                outline: 'none',
+                cursor: 'pointer',
+                padding: 0
+              }}
+            >
+              {users.map(u => (
+                <option key={u.id} value={u.id} style={{ background: '#0f172a', color: '#f8fafc' }}>
+                  {u.role.replace(/_/g, ' ')} ({u.name.split(' ')[0]})
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          title={authUser ? `Logged in as ${authUser.name}` : 'Logout'}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '6px',
+            background: 'rgba(239,68,68,0.08)',
+            border: '1px solid rgba(239,68,68,0.2)',
+            borderRadius: '8px',
+            color: '#f87171', fontSize: '12px', fontWeight: 600,
+            padding: '6px 12px', cursor: 'pointer',
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(239,68,68,0.18)';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(239,68,68,0.08)';
+          }}
+        >
+          <LogOut size={14} />
+          {authUser?.name?.split(' ')[0] ?? 'Logout'}
+        </button>
+      </div>
+    </header>
+  );
+};
+
