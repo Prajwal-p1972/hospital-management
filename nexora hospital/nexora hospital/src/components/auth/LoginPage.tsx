@@ -236,8 +236,93 @@ export default function LoginPage() {
           </button>
         </div>
 
+        {/* Quick Demo Access */}
+        <div style={{
+          marginTop: '28px',
+          paddingTop: '20px',
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '12px',
+          }}>
+            <span style={{ fontSize: '12px', color: '#94a3b8', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Quick Demo Access
+            </span>
+            <span style={{ fontSize: '11px', color: '#00AEEF' }}>
+              Password: <code style={{ background: 'rgba(0,174,239,0.15)', padding: '2px 6px', borderRadius: '4px', color: '#38bdf8' }}>password123</code>
+            </span>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '8px',
+          }}>
+            {[
+              { role: 'Admin', email: 'admin@hospital.com', icon: '👑' },
+              { role: 'Doctor', email: 'doctor@hospital.com', icon: '🩺' },
+              { role: 'Nurse', email: 'nurse@hospital.com', icon: '💉' },
+              { role: 'Receptionist', email: 'receptionist@hospital.com', icon: '📋' },
+              { role: 'Pharmacist', email: 'pharmacist@hospital.com', icon: '💊' },
+            ].map((item) => (
+              <button
+                key={item.email}
+                id={`demo-btn-${item.role.toLowerCase()}`}
+                type="button"
+                onClick={() => {
+                  setEmail(item.email);
+                  setPassword('password123');
+                  setLocalError(null);
+                }}
+                style={{
+                  padding: '8px 10px',
+                  borderRadius: '8px',
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  color: '#e2e8f0',
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  textAlign: 'left',
+                  transition: 'all 0.15s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#00AEEF';
+                  e.currentTarget.style.background = 'rgba(0, 174, 239, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
+                }}
+              >
+                <span style={{ fontSize: '14px' }}>{item.icon}</span>
+                <div style={{ overflow: 'hidden' }}>
+                  <div style={{ fontWeight: '600', fontSize: '11px', color: '#FFFFFF' }}>{item.role}</div>
+                  <div style={{ fontSize: '10px', color: '#94a3b8', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{item.email}</div>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <p style={{
+            marginTop: '12px',
+            fontSize: '11px',
+            color: '#64748b',
+            textAlign: 'center',
+            lineHeight: '1.4',
+            marginBottom: 0,
+          }}>
+            💡 Click any demo card above to auto-fill credentials. Note: This is your hospital website login, not your MySQL database password.
+          </p>
+        </div>
+
         {/* Footer */}
-        <p style={{ textAlign: 'center', color: '#334155', fontSize: '12px', marginTop: '32px', marginBottom: 0 }}>
+        <p style={{ textAlign: 'center', color: '#334155', fontSize: '12px', marginTop: '24px', marginBottom: 0 }}>
           © 2026 Nexora Hospital Management System
         </p>
       </div>
