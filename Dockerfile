@@ -24,8 +24,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy application files
-COPY . /var/www
+# Copy backend application files from monorepo path
+COPY HospitalManagementSystem/HospitalManagementSystem/hms-backend/ /var/www/
 
 # Fix potential Windows CRLF endings on entrypoint script
 RUN sed -i 's/\r$//' /var/www/docker-entrypoint.sh \
