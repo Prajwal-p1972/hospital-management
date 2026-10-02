@@ -223,7 +223,7 @@ export const EmergencyTriageView: React.FC = () => {
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr', gap: '10px' }}>
+                <div className="grid-form-3" style={{ gap: '10px' }}>
                   <div className="form-group">
                     <label className="form-label">Age</label>
                     <input
@@ -272,7 +272,7 @@ export const EmergencyTriageView: React.FC = () => {
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+                <div className="grid-form-3" style={{ gap: '10px' }}>
                   <div className="form-group">
                     <label className="form-label">SpO2 %</label>
                     <input

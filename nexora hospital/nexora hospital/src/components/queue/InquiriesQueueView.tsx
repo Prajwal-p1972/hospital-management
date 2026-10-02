@@ -71,14 +71,11 @@ export const InquiriesQueueView: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       {/* Header Bar */}
-      <div style={{
+      <div className="banner-responsive" style={{
         background: 'linear-gradient(135deg, #121a2d 0%, #0d1322 100%)',
         border: '1px solid var(--border-medium)',
         borderRadius: 'var(--radius-lg)',
         padding: '18px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
         boxShadow: 'var(--shadow-md)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
@@ -335,7 +332,7 @@ export const InquiriesQueueView: React.FC = () => {
                     placeholder="e.g. David Hasselhoff"
                   />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="grid-form-2">
                   <div className="form-group">
                     <label className="form-label">Phone Number *</label>
                     <input
@@ -358,7 +355,7 @@ export const InquiriesQueueView: React.FC = () => {
                     />
                   </div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="grid-form-2">
                   <div className="form-group">
                     <label className="form-label">Department</label>
                     <select

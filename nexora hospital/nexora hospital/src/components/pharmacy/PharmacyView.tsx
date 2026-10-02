@@ -102,7 +102,7 @@ export const PharmacyView: React.FC = () => {
       )}
 
       {/* Grid: Formulary Stock Master & Dispensing Queue */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.2fr', gap: '20px' }}>
+      <div className="grid-split-2-1">
         {/* Formulary Master Table */}
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>

@@ -62,17 +62,7 @@ export default function LoginPage() {
       }} />
 
       {/* Login Card */}
-      <div style={{
-        position: 'relative', zIndex: 1,
-        width: '100%', maxWidth: '440px',
-        margin: '0 16px',
-        background: 'rgba(15, 23, 42, 0.85)',
-        backdropFilter: 'blur(24px)',
-        border: '1px solid rgba(255,255,255,0.1)',
-        borderRadius: '24px',
-        padding: '48px 40px',
-        boxShadow: '0 25px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
-      }}>
+      <div className="login-card-container">
         {/* Logo & Brand */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <div style={{
@@ -256,11 +246,7 @@ export default function LoginPage() {
             </span>
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '8px',
-          }}>
+          <div className="login-demo-grid">
             {[
               { role: 'Admin', email: 'admin@hospital.com', icon: '👑' },
               { role: 'Doctor', email: 'doctor@hospital.com', icon: '🩺' },

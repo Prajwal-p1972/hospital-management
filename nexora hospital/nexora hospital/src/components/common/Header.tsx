@@ -4,7 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import { ProductMode, UserRole } from '../../types';
 import { 
   Building2, Stethoscope, Calendar, QrCode, UserPlus, 
-  Search, Shield, Activity, ChevronDown, Check, Sparkles, LogOut, Sun, Moon
+  Search, Shield, Activity, ChevronDown, Check, Sparkles, LogOut, Sun, Moon,
+  Menu, X
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -15,7 +16,8 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner }) => {
   const { 
     mode, setMode, currentUser, setCurrentUser, users, 
-    selectedDate, setSelectedDate, showToast, setActivePatient360Id, patients
+    selectedDate, setSelectedDate, showToast, setActivePatient360Id, patients,
+    isMobileNavOpen, setIsMobileNavOpen
   } = useApp();
   const { user: authUser, logout } = useAuth();
   const [isLightMode, setIsLightMode] = useState(false);
@@ -59,21 +61,19 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
     : [];
 
   return (
-    <header style={{
-      background: 'rgba(13, 19, 34, 0.92)',
-      backdropFilter: 'blur(16px)',
-      borderBottom: '1px solid var(--border-subtle)',
-      position: 'sticky',
-      top: 0,
-      zIndex: 100,
-      padding: '12px 24px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: '16px'
-    }}>
+    <header className="app-header">
       {/* Brand & Mode Selector */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+      <div className="header-left">
+        {/* Mobile Hamburger Drawer Toggle */}
+        <button
+          type="button"
+          className="mobile-nav-toggle"
+          onClick={() => setIsMobileNavOpen(prev => !prev)}
+          title="Toggle Navigation Menu"
+          aria-label="Toggle Navigation Menu"
+        >
+          {isMobileNavOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
             display: 'flex',
@@ -107,15 +107,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
         </div>
 
         {/* Mode Switcher Pill */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          background: 'var(--bg-input)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-md)',
-          padding: '3px',
-          gap: '2px'
-        }}>
+        {/* Mode Switcher Pill */}
+        <div className="header-modes-scroll">
           {(['CLINIC', 'HOSPITAL', 'SUPER_SPECIALTY', 'DENTAL'] as ProductMode[]).map(m => {
             const isActive = mode === m;
             return (
@@ -134,7 +127,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
                   display: 'flex',
                   alignItems: 'center',
                   gap: '5px',
-                  transition: 'all 0.15s ease'
+                  transition: 'all 0.15s ease',
+                  whiteSpace: 'nowrap'
                 }}
               >
                 <span>{modeLabels[m].icon}</span>
@@ -146,7 +140,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
       </div>
 
       {/* Center Search & Global Patient Finder */}
-      <div style={{ position: 'relative', width: '320px' }}>
+      <div className="header-search-container">
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -234,9 +228,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
       </div>
 
       {/* Date-Selectable Controller & Role Switcher */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div className="header-right">
         {/* Date Selector Box */}
-        <div style={{
+        <div className="header-date-box" style={{
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
@@ -273,8 +267,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
           </div>
         </div>
 
-        {/* Quick Date Chips */}
-        <div style={{ display: 'flex', gap: '4px' }}>
+        {/* Quick Date Chips (hidden on mobile) */}
+        <div className="header-quick-date" style={{ display: 'flex', gap: '4px' }}>
           <button
             onClick={() => setSelectedDate('2026-09-03')}
             style={{
@@ -300,7 +294,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
           title="Scan or enter Patient QR Token"
         >
           <QrCode size={15} />
-          <span>Scan QR</span>
+          <span className="btn-text-responsive">Scan QR</span>
         </button>
 
         {/* Register Patient Trigger */}
@@ -310,11 +304,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
           title="Register new patient with duplicate verification"
         >
           <UserPlus size={15} />
-          <span>+ Patient</span>
+          <span className="btn-text-responsive">+ Patient</span>
         </button>
 
         {/* User Role Switcher Dropdown */}
-        <div style={{
+        <div className="header-user-badge" style={{
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
@@ -333,12 +327,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
             justifyContent: 'center',
             fontSize: '0.75rem',
             fontWeight: 700,
-            color: '#ffffff'
+            color: '#ffffff',
+            flexShrink: 0
           }}>
             {currentUser.name.charAt(0)}
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-main)', maxWidth: '130px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <div className="header-user-text" style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-main)', maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {currentUser.name.split(',')[0]}
             </span>
             <select
@@ -383,6 +378,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
             color: isLightMode ? '#007ACC' : '#00AEEF',
             cursor: 'pointer',
             transition: 'all 0.2s',
+            flexShrink: 0
           }}
         >
           {isLightMode ? <Moon size={16} /> : <Sun size={16} />}
@@ -392,14 +388,16 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
         <button
           onClick={handleLogout}
           title={authUser ? `Logged in as ${authUser.name}` : 'Logout'}
+          className="header-logout-btn"
           style={{
             display: 'flex', alignItems: 'center', gap: '6px',
             background: 'rgba(239,68,68,0.08)',
             border: '1px solid rgba(239,68,68,0.2)',
             borderRadius: '8px',
             color: '#f87171', fontSize: '12px', fontWeight: 600,
-            padding: '6px 12px', cursor: 'pointer',
+            padding: '6px 10px', cursor: 'pointer',
             transition: 'all 0.2s',
+            flexShrink: 0
           }}
           onMouseEnter={e => {
             (e.currentTarget as HTMLButtonElement).style.background = 'rgba(239,68,68,0.18)';
@@ -409,7 +407,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenRegister, onOpenQRScanner 
           }}
         >
           <LogOut size={14} />
-          {authUser?.name?.split(' ')[0] ?? 'Logout'}
+          <span className="btn-text-responsive">{authUser?.name?.split(' ')[0] ?? 'Logout'}</span>
         </button>
       </div>
     </header>

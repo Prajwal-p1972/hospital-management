@@ -101,6 +101,8 @@ interface AppContextType {
   toasts: ToastMessage[];
   showToast: (text: string, type?: ToastMessage['type']) => void;
   removeToast: (id: string) => void;
+  isMobileNavOpen: boolean;
+  setIsMobileNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -137,6 +139,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activePatient360Id, setActivePatient360Id] = useState<string | null>(null);
   const [qrModalPatient, setQrModalPatient] = useState<Patient | null>(null);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState<boolean>(false);
 
   const { isAuthenticated } = useAuth();
 
@@ -700,7 +703,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setQrModalPatient,
       toasts,
       showToast,
-      removeToast
+      removeToast,
+      isMobileNavOpen,
+      setIsMobileNavOpen
     }}>
       {children}
     </AppContext.Provider>

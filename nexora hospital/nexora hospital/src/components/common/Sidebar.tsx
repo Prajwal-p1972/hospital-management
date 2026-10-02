@@ -3,11 +3,11 @@ import { useApp, NavigationTab } from '../../context/AppContext';
 import { 
   LayoutDashboard, Users, Clock, Stethoscope, BedDouble, 
   AlertOctagon, Sparkles, Pill, FlaskConical, Receipt, 
-  Database, BookOpen, ShieldCheck, ChevronRight, Building
+  Database, BookOpen, ShieldCheck, ChevronRight, Building, X
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
-  const { mode, currentUser, activeTab, setActiveTab } = useApp();
+  const { mode, currentUser, activeTab, setActiveTab, isMobileNavOpen, setIsMobileNavOpen } = useApp();
 
   interface NavItem {
     tab: NavigationTab;
@@ -115,106 +115,126 @@ export const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside style={{
-      width: '260px',
-      background: 'var(--bg-sidebar)',
-      borderRight: '1px solid var(--border-subtle)',
-      display: 'flex',
-      flexDirection: 'column',
-      height: 'calc(100vh - 61px)',
-      position: 'sticky',
-      top: '61px',
-      flexShrink: 0
-    }}>
-      {/* Navigation Links */}
-      <div style={{
-        flex: 1,
-        overflowY: 'auto',
-        padding: '16px 12px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '4px'
-      }}>
+    <>
+      {/* Mobile Drawer Overlay Backdrop */}
+      <div 
+        className={`mobile-sidebar-backdrop ${isMobileNavOpen ? 'open' : ''}`}
+        onClick={() => setIsMobileNavOpen(false)}
+        aria-hidden="true"
+      />
+
+      <aside className={`app-sidebar ${isMobileNavOpen ? 'mobile-open' : ''}`}>
+        {/* Mobile Sidebar Header with Close Button */}
+        <div className="sidebar-mobile-header">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <img src="/logo-nexora.png" alt="NEXORA" style={{ height: '22px', objectFit: 'contain' }} />
+            <span style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '0.04em' }}>
+              NEXORA CareOS
+            </span>
+          </div>
+          <button 
+            type="button" 
+            className="sidebar-close-btn" 
+            onClick={() => setIsMobileNavOpen(false)}
+            aria-label="Close Navigation Menu"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* Navigation Links */}
         <div style={{
-          fontSize: '0.675rem',
-          fontWeight: 700,
-          color: 'var(--text-dim)',
-          textTransform: 'uppercase',
-          letterSpacing: '0.06em',
-          padding: '4px 10px 8px 10px'
+          flex: 1,
+          overflowY: 'auto',
+          padding: '16px 12px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px'
         }}>
-          Healthcare Workflows
+          <div style={{
+            fontSize: '0.675rem',
+            fontWeight: 700,
+            color: 'var(--text-dim)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            padding: '4px 10px 8px 10px'
+          }}>
+            Healthcare Workflows
+          </div>
+
+          {navItems.filter(item => item.visible).map(item => {
+            const isActive = activeTab === item.tab;
+            return (
+              <button
+                key={item.tab}
+                onClick={() => {
+                  setActiveTab(item.tab);
+                  setIsMobileNavOpen(false);
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '9px 12px',
+                  borderRadius: 'var(--radius-md)',
+                  background: isActive ? 'linear-gradient(90deg, rgba(14, 165, 233, 0.18) 0%, rgba(14, 165, 233, 0.04) 100%)' : 'transparent',
+                  border: isActive ? '1px solid rgba(56, 189, 248, 0.35)' : '1px solid transparent',
+                  color: isActive ? '#38bdf8' : 'var(--text-muted)',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  width: '100%',
+                  transition: 'all 0.15s ease',
+                  fontFamily: 'inherit'
+                }}
+                onMouseEnter={e => {
+                  if (!isActive) {
+                    e.currentTarget.style.background = 'var(--bg-subtle)';
+                    e.currentTarget.style.color = 'var(--text-main)';
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!isActive) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = 'var(--text-muted)';
+                  }
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ color: isActive ? '#38bdf8' : 'var(--text-dim)' }}>
+                    {item.icon}
+                  </span>
+                  <span style={{ fontSize: '0.825rem', fontWeight: isActive ? 700 : 500 }}>
+                    {item.label}
+                  </span>
+                </div>
+                {item.badge && (
+                  <span className={`badge ${item.badgeColor || 'badge-neutral'}`} style={{ fontSize: '0.65rem', padding: '1px 6px' }}>
+                    {item.badge}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
-        {navItems.filter(item => item.visible).map(item => {
-          const isActive = activeTab === item.tab;
-          return (
-            <button
-              key={item.tab}
-              onClick={() => setActiveTab(item.tab)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '9px 12px',
-                borderRadius: 'var(--radius-md)',
-                background: isActive ? 'linear-gradient(90deg, rgba(14, 165, 233, 0.18) 0%, rgba(14, 165, 233, 0.04) 100%)' : 'transparent',
-                border: isActive ? '1px solid rgba(56, 189, 248, 0.35)' : '1px solid transparent',
-                color: isActive ? '#38bdf8' : 'var(--text-muted)',
-                cursor: 'pointer',
-                textAlign: 'left',
-                width: '100%',
-                transition: 'all 0.15s ease',
-                fontFamily: 'inherit'
-              }}
-              onMouseEnter={e => {
-                if (!isActive) {
-                  e.currentTarget.style.background = 'var(--bg-subtle)';
-                  e.currentTarget.style.color = 'var(--text-main)';
-                }
-              }}
-              onMouseLeave={e => {
-                if (!isActive) {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = 'var(--text-muted)';
-                }
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ color: isActive ? '#38bdf8' : 'var(--text-dim)' }}>
-                  {item.icon}
-                </span>
-                <span style={{ fontSize: '0.825rem', fontWeight: isActive ? 700 : 500 }}>
-                  {item.label}
-                </span>
-              </div>
-              {item.badge && (
-                <span className={`badge ${item.badgeColor || 'badge-neutral'}`} style={{ fontSize: '0.65rem', padding: '1px 6px' }}>
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Facility & Compliance Footer */}
-      <div style={{
-        padding: '14px 16px',
-        borderTop: '1px solid var(--border-subtle)',
-        background: 'rgba(0, 0, 0, 0.2)'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-          <Building size={14} color="#38bdf8" />
-          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-main)' }}>
-            North Campus Facility
-          </span>
+        {/* Facility & Compliance Footer */}
+        <div style={{
+          padding: '14px 16px',
+          borderTop: '1px solid var(--border-subtle)',
+          background: 'rgba(0, 0, 0, 0.2)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+            <Building size={14} color="#38bdf8" />
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-main)' }}>
+              North Campus Facility
+            </span>
+          </div>
+          <div style={{ fontSize: '0.675rem', color: 'var(--text-dim)', display: 'flex', justifyContent: 'space-between' }}>
+            <span>Tenant: NX-TENANT-01</span>
+            <span style={{ color: '#34d399', fontWeight: 600 }}>v2.4 LTS</span>
+          </div>
         </div>
-        <div style={{ fontSize: '0.675rem', color: 'var(--text-dim)', display: 'flex', justifyContent: 'space-between' }}>
-          <span>Tenant: NX-TENANT-01</span>
-          <span style={{ color: '#34d399', fontWeight: 600 }}>v2.4 LTS</span>
-        </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 };

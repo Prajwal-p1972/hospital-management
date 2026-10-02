@@ -126,12 +126,7 @@ export const PatientRegisterModal: React.FC<PatientRegisterModalProps> = ({ isOp
               </p>
             </div>
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '16px',
-              marginBottom: '24px'
-            }}>
+            <div className="grid-form-2" style={{ gap: '16px', marginBottom: '24px' }}>
               {/* Existing Record */}
               <div style={{
                 background: 'var(--bg-card-hover)',
@@ -218,7 +213,7 @@ export const PatientRegisterModal: React.FC<PatientRegisterModalProps> = ({ isOp
           <form onSubmit={e => handleSubmit(e, false)}>
             <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {/* Row 1 */}
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '12px' }}>
+              <div className="grid-form-3">
                 <div className="form-group">
                   <label className="form-label">Full Name *</label>
                   <input
@@ -255,7 +250,7 @@ export const PatientRegisterModal: React.FC<PatientRegisterModalProps> = ({ isOp
               </div>
 
               {/* Row 2: Phone & Email */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+              <div className="grid-form-3">
                 <div className="form-group">
                   <label className="form-label">Primary Phone (Mobile) *</label>
                   <input
@@ -290,7 +285,7 @@ export const PatientRegisterModal: React.FC<PatientRegisterModalProps> = ({ isOp
               </div>
 
               {/* Row 3: Address & City & Blood Group */}
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '12px' }}>
+              <div className="grid-form-3">
                 <div className="form-group">
                   <label className="form-label">Residential Address</label>
                   <input
@@ -330,7 +325,7 @@ export const PatientRegisterModal: React.FC<PatientRegisterModalProps> = ({ isOp
               </div>
 
               {/* Row 4: Allergies & Patient Classification */}
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '12px' }}>
+              <div className="grid-form-2">
                 <div className="form-group">
                   <label className="form-label">Known Allergies / Clinical Alerts</label>
                   <input
@@ -367,7 +362,7 @@ export const PatientRegisterModal: React.FC<PatientRegisterModalProps> = ({ isOp
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>
                   Emergency Contact Details
                 </span>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+                <div className="grid-form-3" style={{ gap: '10px' }}>
                   <input
                     type="text"
                     placeholder="Contact Person Name"

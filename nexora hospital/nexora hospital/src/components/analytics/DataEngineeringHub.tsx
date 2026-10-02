@@ -79,7 +79,7 @@ export const DataEngineeringHub: React.FC = () => {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(5, 1fr)',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: '12px',
           alignItems: 'stretch'
         }}>

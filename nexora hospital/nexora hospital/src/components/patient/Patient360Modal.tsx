@@ -37,12 +37,14 @@ export const Patient360Modal: React.FC = () => {
       <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: '980px', width: '95%' }}>
         {/* Header Bar */}
         <div style={{
-          padding: '20px 24px',
+          padding: '16px 20px',
           background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
           borderBottom: '1px solid var(--border-medium)',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'flex-start'
+          alignItems: 'flex-start',
+          flexWrap: 'wrap',
+          gap: '14px'
         }}>
           <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
             {/* Avatar Initials */}

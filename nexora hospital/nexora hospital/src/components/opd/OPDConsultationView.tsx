@@ -202,13 +202,11 @@ export const OPDConsultationView: React.FC = () => {
       </div>
 
       {/* Patient Banner */}
-      <div className="card" style={{
+      <div className="card banner-responsive" style={{
         background: 'rgba(14, 165, 233, 0.05)',
         border: '1px solid rgba(56, 189, 248, 0.3)',
         padding: '16px 20px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        gap: '16px'
       }}>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
           <div style={{
@@ -258,7 +256,7 @@ export const OPDConsultationView: React.FC = () => {
       </div>
 
       {/* Main Clinical Consultation Workspace */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1.8fr', gap: '20px' }}>
+      <div className="grid-split-1-2">
         {/* Left Column: Vitals & History */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Vitals Recording Card */}
@@ -268,7 +266,7 @@ export const OPDConsultationView: React.FC = () => {
               <h3 className="title-md">Vitals & Physiological Metrics</h3>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div className="grid-form-2">
               <div className="form-group">
                 <label className="form-label">Blood Pressure (Sys / Dia)</label>
                 <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
@@ -419,7 +417,7 @@ export const OPDConsultationView: React.FC = () => {
             </div>
 
             {/* Add diagnosis row */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr auto', gap: '8px' }}>
+            <div className="grid-form-3" style={{ gap: '8px' }}>
               <input
                 type="text"
                 placeholder="ICD Code"

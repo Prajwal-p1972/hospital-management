@@ -138,6 +138,11 @@ export const ToothChart32: React.FC<ToothChart32Props> = ({ selectedTooth, onSel
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+      <div style={{ fontSize: '0.72rem', color: '#38bdf8', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <span>ℹ️</span>
+        <span>Swipe horizontally if needed to interact with all 16 teeth per arch</span>
+      </div>
+
       {/* Maxillary (Upper Arch) */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
@@ -151,17 +156,18 @@ export const ToothChart32: React.FC<ToothChart32Props> = ({ selectedTooth, onSel
           </div>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(16, minmax(0, 1fr))',
-          gap: '5px',
-          background: 'var(--bg-input)',
-          padding: '10px',
-          borderRadius: '12px',
-          border: '1px solid var(--border-subtle)',
-          overflowX: 'auto'
-        }}>
-          {upperTeeth.map(t => renderToothSVG(t, true))}
+        <div className="tooth-chart-scroll">
+          <div className="tooth-chart-inner" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(16, minmax(42px, 1fr))',
+            gap: '5px',
+            background: 'var(--bg-input)',
+            padding: '10px',
+            borderRadius: '12px',
+            border: '1px solid var(--border-subtle)'
+          }}>
+            {upperTeeth.map(t => renderToothSVG(t, true))}
+          </div>
         </div>
       </div>
 
@@ -193,17 +199,18 @@ export const ToothChart32: React.FC<ToothChart32Props> = ({ selectedTooth, onSel
           </div>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(16, minmax(0, 1fr))',
-          gap: '5px',
-          background: 'var(--bg-input)',
-          padding: '10px',
-          borderRadius: '12px',
-          border: '1px solid var(--border-subtle)',
-          overflowX: 'auto'
-        }}>
-          {lowerTeeth.map(t => renderToothSVG(t, false))}
+        <div className="tooth-chart-scroll">
+          <div className="tooth-chart-inner" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(16, minmax(42px, 1fr))',
+            gap: '5px',
+            background: 'var(--bg-input)',
+            padding: '10px',
+            borderRadius: '12px',
+            border: '1px solid var(--border-subtle)'
+          }}>
+            {lowerTeeth.map(t => renderToothSVG(t, false))}
+          </div>
         </div>
       </div>
     </div>

@@ -189,7 +189,7 @@ export const DentalWorkspace: React.FC = () => {
           </div>
 
           {/* Bottom Grid: Tooth Findings Recorder & Treatment Plan Board */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.3fr', gap: '20px' }}>
+          <div className="grid-split-dental">
             {/* Tooth Findings Inspector & Recorder */}
             <div className="card">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '10px' }}>

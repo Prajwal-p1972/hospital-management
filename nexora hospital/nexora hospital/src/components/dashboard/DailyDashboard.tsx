@@ -93,14 +93,11 @@ export const DailyDashboard: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Top Banner with Active Operating Date & Quick Summary */}
-      <div style={{
+      <div className="banner-responsive" style={{
         background: 'linear-gradient(135deg, #121a2d 0%, #0d1322 100%)',
         border: '1px solid var(--border-medium)',
         borderRadius: 'var(--radius-lg)',
         padding: '20px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
         boxShadow: 'var(--shadow-md)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -238,7 +235,7 @@ export const DailyDashboard: React.FC = () => {
       </div>
 
       {/* Patient Flow Funnel & Operational Alerts Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
+      <div className="grid-split-2-1">
         {/* Patient Flow Funnel Card */}
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
@@ -364,7 +361,7 @@ export const DailyDashboard: React.FC = () => {
       </div>
 
       {/* Department Load & Doctor Utilization Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+      <div className="grid-split-1-1">
         {/* Department Stats */}
         <div className="card">
           <h3 className="title-md" style={{ marginBottom: '14px' }}>Department Workload & Wait Times</h3>
